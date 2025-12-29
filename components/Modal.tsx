@@ -8,9 +8,16 @@ import '../styles/components/modal.scss';
 interface ModalProps {
   children: React.ReactNode;
   onClose: () => void;
+  className?: string;
+  isCentered?: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ 
+  children, 
+  onClose, 
+  className = '', 
+  isCentered = false 
+}) => {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -20,8 +27,8 @@ const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
   }, [onClose]);
 
   return createPortal(
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className={`modal-overlay ${isCentered ? 'is-centered' : ''}`} onClick={onClose}>
+      <div className={`modal-content ${className}`} onClick={(e) => e.stopPropagation()}>
         <button className="modal-close-btn" onClick={onClose}>
           <X size={24} />
         </button>

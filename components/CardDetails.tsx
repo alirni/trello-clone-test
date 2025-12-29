@@ -5,6 +5,7 @@ import { Card } from '@/types';
 import { useBoardStore } from '@/store/useBoardStore';
 import { MessageSquare, AlignLeft, Calendar } from 'lucide-react';
 import EditableTitle from './EditableTitle';
+import ConfirmDialog from './ConfirmDialog';
 import '../styles/components/card-details.scss';
 
 interface CardDetailsProps {
@@ -18,6 +19,10 @@ const CardDetails: React.FC<CardDetailsProps> = ({ card, listId }) => {
   const [commentText, setCommentText] = useState('');
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [descriptionValue, setDescriptionValue] = useState(card.description || '');
+  const [confirmDelete, setConfirmDelete] = useState<{ isOpen: boolean; commentId: string }>({
+    isOpen: false,
+    commentId: '',
+  });
 
   const handleAddComment = () => {
     if (commentText.trim()) {
@@ -29,6 +34,11 @@ const CardDetails: React.FC<CardDetailsProps> = ({ card, listId }) => {
   const handleSaveDescription = () => {
     updateCardDescription(listId, card.id, descriptionValue.trim());
     setIsEditingDescription(false);
+  };
+
+  const handleDeleteComment = () => {
+    deleteComment(listId, card.id, confirmDelete.commentId);
+    setConfirmDelete({ isOpen: false, commentId: '' });
   };
 
   const formatDate = (timestamp: number) => {
@@ -138,7 +148,9 @@ const CardDetails: React.FC<CardDetailsProps> = ({ card, listId }) => {
               </div>
               <div className="comment-actions">
                 <button 
-                  onClick={() => deleteComment(listId, card.id, comment.id)}
+                  onClick={() => {
+                    setConfirmDelete({ isOpen: true, commentId: comment.id });
+                  }}
                   className="delete-comment-btn"
                 >
                   Delete
@@ -148,6 +160,15 @@ const CardDetails: React.FC<CardDetailsProps> = ({ card, listId }) => {
           ))}
         </div>
       </section>
+
+      <ConfirmDialog
+        isOpen={confirmDelete.isOpen}
+        title="Delete Comment"
+        message="Are you sure you want to delete this comment?"
+        confirmText="Delete"
+        onConfirm={handleDeleteComment}
+        onCancel={() => setConfirmDelete({ isOpen: false, commentId: '' })}
+      />
     </div>
   );
 };

@@ -1,0 +1,63 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.confirm-dialog {
+  padding: 24px;
+  text-align: center;
+
+  .confirm-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-color;
+    margin-bottom: 12px;
+  }
+
+  .confirm-message {
+    font-size: 16px;
+    color: $text-light;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+
+    button {
+      @include button-reset;
+      padding: 10px 20px;
+      border-radius: $border-radius;
+      font-weight: 600;
+      font-size: 14px;
+      min-width: 100px;
+      transition: background-color 0.2s;
+    }
+
+    .confirm-btn-cancel {
+      background-color: rgba(9, 30, 66, 0.04);
+      color: $text-color;
+
+      &:hover {
+        background-color: rgba(9, 30, 66, 0.08);
+      }
+    }
+
+    .confirm-btn-danger {
+      background-color: $danger-color;
+      color: white;
+
+      &:hover {
+        background-color: darken($danger-color, 10%);
+      }
+    }
+  }
+}
+
+// Adjusting modal content for confirm dialog specifically
+.modal-content.confirm-modal {
+  max-width: 400px;
+  min-height: auto;
+  align-self: center; // Center it vertically as well
+}
+

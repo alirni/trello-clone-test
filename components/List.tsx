@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useSortable, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useDndContext } from '@dnd-kit/core';
@@ -9,6 +9,7 @@ import { useBoardStore } from '@/store/useBoardStore';
 import CardComponent from './Card';
 import AddCard from './AddCard';
 import EditableTitle from './EditableTitle';
+import ConfirmDialog from './ConfirmDialog';
 import { Trash2 } from 'lucide-react';
 import '../styles/components/list.scss';
 
@@ -19,6 +20,7 @@ interface ListProps {
 const ListComponent: React.FC<ListProps> = ({ list }) => {
   const { updateListTitle, deleteList, addCard } = useBoardStore();
   const { over, active } = useDndContext();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   
   const {
     attributes,
@@ -47,6 +49,11 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
     opacity: isActuallyDragging ? 0.5 : 1,
   };
 
+  const handleDelete = () => {
+    setIsConfirmOpen(false);
+    deleteList(list.id);
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -62,11 +69,7 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
           />
           <button
             className="delete-list-btn"
-            onClick={() => {
-              if (confirm('Are you sure you want to delete this list?')) {
-                deleteList(list.id);
-              }
-            }}
+            onClick={() => setIsConfirmOpen(true)}
           >
             <Trash2 size={16} />
           </button>
@@ -87,6 +90,15 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
           <AddCard onAdd={(title) => addCard(list.id, title)} />
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={isConfirmOpen}
+        title="Delete List"
+        message={`Are you sure you want to delete the list "${list.title}"? All cards in this list will be lost.`}
+        confirmText="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => setIsConfirmOpen(false)}
+      />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { useBoardStore } from '@/store/useBoardStore';
 import { MessageSquare, Trash2 } from 'lucide-react';
 import CardDetails from './CardDetails';
 import Modal from './Modal';
+import ConfirmDialog from './ConfirmDialog';
 import '../styles/components/card.scss';
 
 interface CardProps {
@@ -18,6 +19,7 @@ interface CardProps {
 const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
   const { deleteCard } = useBoardStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const {
     attributes,
@@ -42,6 +44,11 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
     transform: CSS.Translate.toString(transform),
     transition,
     opacity: isActuallyDragging ? 0.3 : 1,
+  };
+
+  const handleDelete = () => {
+    setIsConfirmOpen(false);
+    deleteCard(listId, card.id);
   };
 
   const handleCardClick = (e: React.MouseEvent) => {
@@ -73,9 +80,7 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
             className="delete-card-btn"
             onClick={(e) => {
               e.stopPropagation();
-              if (confirm('Are you sure you want to delete this card?')) {
-                deleteCard(listId, card.id);
-              }
+              setIsConfirmOpen(true);
             }}
           >
             <Trash2 size={12} />
@@ -92,6 +97,15 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
           />
         </Modal>
       )}
+
+      <ConfirmDialog
+        isOpen={isConfirmOpen}
+        title="Delete Card"
+        message={`Are you sure you want to delete the card "${card.title}"?`}
+        confirmText="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => setIsConfirmOpen(false)}
+      />
     </>
   );
 };
