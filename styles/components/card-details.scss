@@ -1,0 +1,191 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.card-details {
+  padding: 24px 16px 24px 56px;
+  position: relative;
+  
+  .details-header {
+    margin-bottom: 24px;
+    
+    .header-icon {
+      position: absolute;
+      left: 16px;
+      top: 28px;
+      color: $text-color;
+    }
+    
+    .header-title {
+      .card-title-edit {
+        font-size: 20px;
+        font-weight: 600;
+        color: $text-color;
+        cursor: pointer;
+        
+        &.is-editing {
+          width: 100%;
+          border: 2px solid $primary-color;
+          border-radius: $border-radius;
+          padding: 4px 8px;
+          outline: none;
+          background: white;
+        }
+      }
+      
+      .list-context {
+        font-size: 14px;
+        color: $text-light;
+        margin-top: 4px;
+        
+        span {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  
+  .details-section {
+    margin-bottom: 32px;
+    position: relative;
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      
+      svg {
+        position: absolute;
+        left: -40px;
+        color: $text-color;
+      }
+      
+      h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: $text-color;
+      }
+    }
+    
+    .section-content {
+      .placeholder-text {
+        background-color: rgba(9, 30, 66, 0.04);
+        padding: 12px;
+        border-radius: $border-radius;
+        color: $text-light;
+        cursor: pointer;
+        
+        &:hover {
+          background-color: rgba(9, 30, 66, 0.08);
+        }
+      }
+    }
+  }
+  
+  .add-comment {
+    margin-bottom: 24px;
+    
+    .comment-input-wrapper {
+      background: white;
+      border: 1px solid rgba(9, 30, 66, 0.13);
+      border-radius: $border-radius;
+      padding: 8px;
+      box-shadow: $card-shadow;
+      
+      textarea {
+        width: 100%;
+        border: none;
+        resize: none;
+        outline: none;
+        font-size: 14px;
+        color: $text-color;
+      }
+      
+      .save-comment-btn {
+        @include button-reset;
+        background-color: $primary-color;
+        color: white;
+        padding: 6px 12px;
+        border-radius: $border-radius;
+        font-weight: 600;
+        font-size: 14px;
+        margin-top: 8px;
+        
+        &:hover {
+          background-color: darken($primary-color, 10%);
+        }
+      }
+    }
+  }
+  
+  .comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    
+    .comment-item {
+      .comment-header {
+        margin-bottom: 4px;
+        font-size: 12px;
+        
+        .author-name {
+          font-weight: 700;
+          color: $text-color;
+          margin-right: 8px;
+        }
+        
+        .comment-date {
+          color: $text-light;
+        }
+      }
+      
+      .comment-bubble {
+        background-color: white;
+        padding: 8px 12px;
+        border-radius: $border-radius;
+        box-shadow: $card-shadow;
+        font-size: 14px;
+        color: $text-color;
+        display: inline-block;
+        max-width: 100%;
+        word-break: break-word;
+      }
+      
+      .comment-actions {
+        margin-top: 4px;
+        
+        .delete-comment-btn {
+          @include button-reset;
+          font-size: 12px;
+          color: $text-light;
+          text-decoration: underline;
+          
+          &:hover {
+            color: $danger-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include mobile {
+  .modal-overlay {
+    padding: 0;
+  }
+  
+  .modal-content {
+    max-width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+  
+  .card-details {
+    padding-left: 48px;
+    
+    .details-section .section-header svg {
+      left: -32px;
+    }
+  }
+}
+
