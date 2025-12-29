@@ -29,9 +29,13 @@ const AddList: React.FC = () => {
     if (e.key === 'Enter') {
       handleAdd();
     } else if (e.key === 'Escape') {
-      setIsAdding(false);
-      setTitle('');
+      handleCancel();
     }
+  };
+
+  const handleCancel = () => {
+    setIsAdding(false);
+    setTitle('');
   };
 
   if (isAdding) {
@@ -49,7 +53,7 @@ const AddList: React.FC = () => {
           <button className="add-btn" onClick={handleAdd}>
             Add list
           </button>
-          <button className="cancel-btn" onClick={() => setIsAdding(false)}>
+          <button className="cancel-btn" onClick={handleCancel}>
             <X size={20} />
           </button>
         </div>
