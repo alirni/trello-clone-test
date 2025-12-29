@@ -35,6 +35,32 @@
         cursor: text;
       }
     }
+
+    .delete-all-btn {
+      @include button-reset;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: $border-radius;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: $danger-color;
+      }
+
+      @include mobile {
+        span {
+          display: none;
+        }
+        padding: 6px;
+      }
+    }
   }
   
   .board-content {

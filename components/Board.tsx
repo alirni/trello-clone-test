@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -14,11 +15,15 @@ import ListComponent from './List';
 import CardComponent from './Card';
 import AddList from './AddList';
 import EditableTitle from './EditableTitle';
+import ConfirmDialog from './ConfirmDialog';
 import { useBoardDnd } from '@/hooks/useBoardDnd';
+import { Trash2 } from 'lucide-react';
 import '../styles/components/board.scss';
 
 const BoardComponent: React.FC = () => {
-  const { board, updateBoardTitle } = useBoardStore();
+  const { board, updateBoardTitle, deleteAllLists } = useBoardStore();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  
   const {
     activeId,
     activeType,
@@ -75,6 +80,14 @@ const BoardComponent: React.FC = () => {
           onSave={updateBoardTitle}
           className="board-title"
         />
+        <button 
+          className="delete-all-btn"
+          onClick={() => setIsConfirmOpen(true)}
+          title="Delete all lists"
+        >
+          <Trash2 size={18} />
+          <span>Delete all lists</span>
+        </button>
       </header>
 
       <div className="board-content">
@@ -110,9 +123,20 @@ const BoardComponent: React.FC = () => {
           </DragOverlay>
         </DndContext>
       </div>
+
+      <ConfirmDialog
+        isOpen={isConfirmOpen}
+        title="Delete All Lists"
+        message="Are you sure you want to delete ALL lists and cards from this board? This action cannot be undone."
+        confirmText="Delete All"
+        onConfirm={() => {
+          deleteAllLists();
+          setIsConfirmOpen(false);
+        }}
+        onCancel={() => setIsConfirmOpen(false)}
+      />
     </div>
   );
 };
 
 export default BoardComponent;
-

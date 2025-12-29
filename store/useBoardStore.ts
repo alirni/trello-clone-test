@@ -74,6 +74,14 @@ export const useBoardStore = create<BoardState>()(
           },
         })),
 
+      deleteAllLists: () =>
+        set((state) => ({
+          board: {
+            ...state.board,
+            lists: [],
+          },
+        })),
+
       addCard: (listId, title) =>
         set((state) => ({
           board: {

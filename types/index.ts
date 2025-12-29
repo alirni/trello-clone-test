@@ -31,6 +31,7 @@ export interface BoardState {
   addList: (title: string) => void;
   updateListTitle: (listId: string, title: string) => void;
   deleteList: (listId: string) => void;
+  deleteAllLists: () => void;
   addCard: (listId: string, title: string) => void;
   updateCardTitle: (listId: string, cardId: string, title: string) => void;
   updateCardDescription: (listId: string, cardId: string, description: string) => void;
