@@ -1,0 +1,132 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.board {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-color;
+  
+  .board-header {
+    padding: 12px 16px;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    .board-title {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: $border-radius;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      
+      &.is-editing {
+        background-color: white;
+        color: $text-color;
+        border: none;
+        padding: 4px 8px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: $border-radius;
+        outline: none;
+        cursor: text;
+      }
+    }
+
+    .delete-all-btn {
+      @include button-reset;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: $border-radius;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.2s;
+      min-width: max-content;
+
+      &:hover {
+        background-color: $danger-color;
+      }
+
+      @include mobile {
+        span {
+          display: none;
+        }
+        padding: 6px;
+      }
+    }
+  }
+  
+  .board-content {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 12px;
+    -webkit-overflow-scrolling: touch;
+    
+    .lists-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      height: 100%;
+      padding-bottom: 8px;
+    }
+    
+    /* Custom scrollbar for board content */
+    &::-webkit-scrollbar {
+      height: 12px;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+    }
+  }
+}
+
+@include mobile {
+  .board .board-content {
+    padding: 8px;
+    
+    .lists-container {
+      gap: 8px;
+    }
+  }
+}
+
+.drag-overlay-item {
+  background-color: white;
+  padding: 8px;
+  border-radius: 3px;
+  box-shadow: $modal-shadow;
+  opacity: 0.8;
+}
+
+.list-overlay {
+  opacity: 0.9;
+  transform: rotate(2deg);
+  box-shadow: $modal-shadow;
+  
+  .list-wrapper {
+    height: auto;
+  }
+}
+
+.card-overlay {
+  opacity: 0.9;
+  transform: rotate(2deg);
+  box-shadow: $modal-shadow;
+}
+

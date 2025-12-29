@@ -1,0 +1,76 @@
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.add-list-btn {
+  @include button-reset;
+  width: 272px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 12px;
+  border-radius: $border-radius;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.add-list-form {
+  width: 272px;
+  background-color: $list-bg;
+  padding: 4px;
+  border-radius: $border-radius;
+  flex-shrink: 0;
+  animation: fadeIn 0.2s ease-in-out;
+  
+  input {
+    width: 100%;
+    border: 2px solid $primary-color;
+    border-radius: $border-radius;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 4px;
+  }
+  
+  .add-list-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    .add-btn {
+      @include button-reset;
+      background-color: $primary-color;
+      color: white;
+      padding: 6px 12px;
+      border-radius: $border-radius;
+      font-weight: 600;
+      font-size: 14px;
+      
+      &:hover {
+        background-color: color.adjust($primary-color, $lightness: -10%);
+      }
+    }
+    
+    .cancel-btn {
+      @include button-reset;
+      padding: 6px;
+      color: $text-light;
+      
+      &:hover {
+        color: $text-color;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

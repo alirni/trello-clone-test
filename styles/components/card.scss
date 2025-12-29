@@ -1,0 +1,58 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.card-item {
+  @include card-style;
+  position: relative;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  
+  .card-title {
+    font-size: 14px;
+    color: $text-color;
+    margin-bottom: 8px;
+    word-break: break-word;
+  }
+  
+  .card-badges {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: $text-light;
+      font-size: 12px;
+      
+      span {
+        margin-top: 1px;
+      }
+    }
+    
+    .delete-card-btn {
+      @include button-reset;
+      padding: 4px;
+      border-radius: $border-radius;
+      color: $text-light;
+      opacity: 0;
+      transition: opacity 0.2s;
+
+      @include mobile {
+        opacity: 1;
+      }
+      
+      &:hover {
+        background-color: rgba(9, 30, 66, 0.08);
+        color: $danger-color;
+      }
+    }
+  }
+  
+  &:hover {
+    .delete-card-btn {
+      opacity: 1;
+    }
+  }
+}
+

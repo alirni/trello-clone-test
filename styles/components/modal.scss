@@ -1,0 +1,51 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.64);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1000;
+  padding: 48px 16px;
+  overflow-y: auto;
+
+  &.is-centered {
+    align-items: center;
+  }
+}
+
+.modal-content {
+  background-color: #f4f5f7;
+  width: 100%;
+  max-width: 768px;
+  border-radius: $border-radius-lg;
+  position: relative;
+  box-shadow: $modal-shadow;
+  min-height: 400px;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-close-btn {
+  @include button-reset;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: $text-light;
+  padding: 8px;
+  border-radius: 50%;
+  z-index: 10;
+  
+  &:hover {
+    background-color: rgba(9, 30, 66, 0.08);
+    color: $text-color;
+  }
+}
+
