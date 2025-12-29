@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Card } from '@/types';
 import { useBoardStore } from '@/store/useBoardStore';
-import { MessageSquare, AlignLeft, Calendar, Trash2 } from 'lucide-react';
+import { MessageSquare, AlignLeft, Calendar } from 'lucide-react';
 import EditableTitle from './EditableTitle';
 import '../styles/components/card-details.scss';
 
@@ -13,7 +13,7 @@ interface CardDetailsProps {
   onClose: () => void;
 }
 
-const CardDetails: React.FC<CardDetailsProps> = ({ card, listId, onClose }) => {
+const CardDetails: React.FC<CardDetailsProps> = ({ card, listId }) => {
   const { updateCardTitle, addComment, deleteComment } = useBoardStore();
   const [commentText, setCommentText] = useState('');
 
