@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
+import { arrayMove } from '@dnd-kit/sortable';
 import { Board, BoardState } from '../types';
 
 const initialData: Board = {
@@ -113,6 +114,23 @@ export const useBoardStore = create<BoardState>()(
           },
         })),
 
+      updateCardDescription: (listId, cardId, description) =>
+        set((state) => ({
+          board: {
+            ...state.board,
+            lists: state.board.lists.map((list) =>
+              list.id === listId
+                ? {
+                    ...list,
+                    cards: list.cards.map((card) =>
+                      card.id === cardId ? { ...card, description } : card
+                    ),
+                  }
+                : list
+            ),
+          },
+        })),
+
       deleteCard: (listId, cardId) =>
         set((state) => ({
           board: {
@@ -132,10 +150,12 @@ export const useBoardStore = create<BoardState>()(
         set((state) => {
           const oldIndex = state.board.lists.findIndex((l) => l.id === activeId);
           const newIndex = state.board.lists.findIndex((l) => l.id === overId);
-          const newLists = [...state.board.lists];
-          const [movedList] = newLists.splice(oldIndex, 1);
-          newLists.splice(newIndex, 0, movedList);
-          return { board: { ...state.board, lists: newLists } };
+          return {
+            board: {
+              ...state.board,
+              lists: arrayMove(state.board.lists, oldIndex, newIndex),
+            },
+          };
         }),
 
       moveCard: (activeId, overId, activeListId, overListId) =>
@@ -146,30 +166,29 @@ export const useBoardStore = create<BoardState>()(
 
           if (activeListIndex === -1 || overListIndex === -1) return state;
 
-          const activeList = { ...newLists[activeListIndex] };
-          const overList = activeListId === overListId ? activeList : { ...newLists[overListIndex] };
+          const activeList = { ...newLists[activeListIndex], cards: [...newLists[activeListIndex].cards] };
+          const overList = activeListId === overListId ? activeList : { ...newLists[overListIndex], cards: [...newLists[overListIndex].cards] };
 
           const activeCardIndex = activeList.cards.findIndex((c) => c.id === activeId);
           if (activeCardIndex === -1) return state;
 
-          const [movedCard] = activeList.cards.splice(activeCardIndex, 1);
-
-          if (activeId === overId) {
-            // No movement needed or handled by handleDragOver
-            activeList.cards.splice(activeCardIndex, 0, movedCard);
-            return state;
-          }
-
-          const overCardIndex = overList.cards.findIndex((c) => c.id === overId);
-          
-          if (overCardIndex !== -1) {
-            overList.cards.splice(overCardIndex, 0, movedCard);
+          if (activeListId === overListId) {
+            const overCardIndex = activeList.cards.findIndex((c) => c.id === overId);
+            if (overCardIndex === -1 || activeCardIndex === overCardIndex) return state;
+            
+            activeList.cards = arrayMove(activeList.cards, activeCardIndex, overCardIndex);
+            newLists[activeListIndex] = activeList;
           } else {
-            overList.cards.push(movedCard);
-          }
-
-          newLists[activeListIndex] = activeList;
-          if (activeListId !== overListId) {
+            const [movedCard] = activeList.cards.splice(activeCardIndex, 1);
+            const overCardIndex = overList.cards.findIndex((c) => c.id === overId);
+            
+            if (overCardIndex !== -1) {
+              overList.cards.splice(overCardIndex, 0, movedCard);
+            } else {
+              overList.cards.push(movedCard);
+            }
+            
+            newLists[activeListIndex] = activeList;
             newLists[overListIndex] = overList;
           }
 

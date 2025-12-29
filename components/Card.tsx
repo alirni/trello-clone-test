@@ -26,6 +26,7 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
     transform,
     transition,
     isDragging,
+    active,
   } = useSortable({
     id: card.id,
     data: {
@@ -35,10 +36,12 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
     },
   });
 
+  const isActuallyDragging = isDragging || (active?.id === card.id);
+
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
-    opacity: isDragging ? 0.3 : 1,
+    opacity: isActuallyDragging ? 0.3 : 1,
   };
 
   const handleCardClick = (e: React.MouseEvent) => {

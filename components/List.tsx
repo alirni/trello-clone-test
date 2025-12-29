@@ -3,6 +3,7 @@
 import React from 'react';
 import { useSortable, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useDndContext } from '@dnd-kit/core';
 import { List } from '@/types';
 import { useBoardStore } from '@/store/useBoardStore';
 import CardComponent from './Card';
@@ -17,6 +18,7 @@ interface ListProps {
 
 const ListComponent: React.FC<ListProps> = ({ list }) => {
   const { updateListTitle, deleteList, addCard } = useBoardStore();
+  const { over, active } = useDndContext();
   
   const {
     attributes,
@@ -33,10 +35,16 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
     },
   });
 
+  const isCardOver = over && 
+    (over.id === list.id || list.cards.some(c => c.id === over.id)) && 
+    active?.data.current?.type === 'Card';
+
+  const isActuallyDragging = isDragging || (active?.id === list.id);
+
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
+    opacity: isActuallyDragging ? 0.5 : 1,
   };
 
   return (
@@ -45,7 +53,7 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
       style={style}
       className="list-wrapper"
     >
-      <div className="list-content">
+      <div className={`list-content ${isCardOver ? 'is-card-over' : ''}`}>
         <div className="list-header" {...attributes} {...listeners}>
           <EditableTitle
             title={list.title}

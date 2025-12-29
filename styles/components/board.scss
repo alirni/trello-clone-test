@@ -84,3 +84,19 @@
   opacity: 0.8;
 }
 
+.list-overlay {
+  opacity: 0.9;
+  transform: rotate(2deg);
+  box-shadow: $modal-shadow;
+  
+  .list-wrapper {
+    height: auto;
+  }
+}
+
+.card-overlay {
+  opacity: 0.9;
+  transform: rotate(2deg);
+  box-shadow: $modal-shadow;
+}
+

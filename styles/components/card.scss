@@ -4,6 +4,7 @@
 .card-item {
   @include card-style;
   position: relative;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
   
   .card-title {
     font-size: 14px;
