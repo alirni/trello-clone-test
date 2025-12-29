@@ -1,0 +1,65 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.add-card-btn {
+  @include button-reset;
+  width: 100%;
+  color: $text-light;
+  padding: 8px;
+  border-radius: $border-radius;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  
+  &:hover {
+    background-color: rgba(9, 30, 66, 0.08);
+    color: $text-color;
+  }
+}
+
+.add-card-form {
+  margin-top: 16px;
+  textarea {
+    width: 100%;
+    border: none;
+    border-radius: $border-radius;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+    box-shadow: $card-shadow;
+    resize: none;
+    margin-bottom: 8px;
+  }
+  
+  .add-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    .add-btn {
+      @include button-reset;
+      background-color: $primary-color;
+      color: white;
+      padding: 6px 12px;
+      border-radius: $border-radius;
+      font-weight: 600;
+      font-size: 14px;
+      
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+    
+    .cancel-btn {
+      @include button-reset;
+      padding: 6px;
+      color: $text-light;
+      
+      &:hover {
+        color: $text-color;
+      }
+    }
+  }
+}
+
