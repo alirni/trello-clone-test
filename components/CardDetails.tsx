@@ -14,14 +14,21 @@ interface CardDetailsProps {
 }
 
 const CardDetails: React.FC<CardDetailsProps> = ({ card, listId }) => {
-  const { updateCardTitle, addComment, deleteComment } = useBoardStore();
+  const { updateCardTitle, updateCardDescription, addComment, deleteComment } = useBoardStore();
   const [commentText, setCommentText] = useState('');
+  const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [descriptionValue, setDescriptionValue] = useState(card.description || '');
 
   const handleAddComment = () => {
     if (commentText.trim()) {
       addComment(listId, card.id, commentText.trim());
       setCommentText('');
     }
+  };
+
+  const handleSaveDescription = () => {
+    updateCardDescription(listId, card.id, descriptionValue.trim());
+    setIsEditingDescription(false);
   };
 
   const formatDate = (timestamp: number) => {
@@ -48,9 +55,52 @@ const CardDetails: React.FC<CardDetailsProps> = ({ card, listId }) => {
         <div className="section-header">
           <AlignLeft size={20} />
           <h3>Description</h3>
+          {card.description && !isEditingDescription && (
+            <button 
+              className="edit-desc-btn" 
+              onClick={() => setIsEditingDescription(true)}
+            >
+              Edit
+            </button>
+          )}
         </div>
         <div className="section-content">
-          <p className="placeholder-text">Edit the description...</p>
+          {isEditingDescription ? (
+            <div className="description-edit">
+              <textarea
+                autoFocus
+                placeholder="Add a more detailed description..."
+                value={descriptionValue}
+                onChange={(e) => setDescriptionValue(e.target.value)}
+                rows={3}
+              />
+              <div className="description-actions">
+                <button className="save-btn" onClick={handleSaveDescription}>
+                  Save
+                </button>
+                <button 
+                  className="cancel-btn" 
+                  onClick={() => {
+                    setDescriptionValue(card.description || '');
+                    setIsEditingDescription(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div 
+              className={`description-display ${!card.description ? 'empty' : ''}`}
+              onClick={() => setIsEditingDescription(true)}
+            >
+              {card.description ? (
+                <p>{card.description}</p>
+              ) : (
+                <p className="placeholder-text">Add a more detailed description...</p>
+              )}
+            </div>
+          )}
         </div>
       </section>
 

@@ -65,18 +65,91 @@
         font-weight: 600;
         color: $text-color;
       }
-    }
-    
-    .section-content {
-      .placeholder-text {
+
+      .edit-desc-btn {
+        @include button-reset;
         background-color: rgba(9, 30, 66, 0.04);
-        padding: 12px;
+        padding: 6px 12px;
         border-radius: $border-radius;
-        color: $text-light;
-        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
         
         &:hover {
           background-color: rgba(9, 30, 66, 0.08);
+        }
+      }
+    }
+    
+    .section-content {
+      .description-display {
+        padding: 8px 12px;
+        border-radius: $border-radius;
+        cursor: pointer;
+        min-height: 40px;
+
+        p {
+          font-size: 14px;
+          line-height: 20px;
+          color: $text-color;
+          white-space: pre-wrap;
+        }
+
+        &.empty {
+          background-color: rgba(9, 30, 66, 0.04);
+          
+          &:hover {
+            background-color: rgba(9, 30, 66, 0.08);
+          }
+        }
+
+        .placeholder-text {
+          color: $text-light;
+        }
+      }
+
+      .description-edit {
+        textarea {
+          width: 100%;
+          background-color: white;
+          border: none;
+          border-radius: $border-radius;
+          padding: 8px 12px;
+          font-size: 14px;
+          line-height: 20px;
+          color: $text-color;
+          outline: 2px solid $primary-color;
+          resize: vertical;
+          margin-bottom: 8px;
+        }
+
+        .description-actions {
+          display: flex;
+          gap: 4px;
+
+          .save-btn {
+            @include button-reset;
+            background-color: $primary-color;
+            color: white;
+            padding: 6px 12px;
+            border-radius: $border-radius;
+            font-weight: 600;
+            font-size: 14px;
+
+            &:hover {
+              background-color: darken($primary-color, 10%);
+            }
+          }
+
+          .cancel-btn {
+            @include button-reset;
+            padding: 6px 12px;
+            border-radius: $border-radius;
+            font-size: 14px;
+            
+            &:hover {
+              background-color: rgba(9, 30, 66, 0.08);
+            }
+          }
         }
       }
     }
