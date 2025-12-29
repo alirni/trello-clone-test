@@ -76,7 +76,12 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
           />
           <button
             className="delete-list-btn"
-            onClick={() => setIsConfirmOpen(true)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsConfirmOpen(true);
+            }}
+            onPointerDown={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
           >
             <Trash2 size={16} />
           </button>

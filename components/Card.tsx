@@ -85,6 +85,8 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
               e.stopPropagation();
               setIsConfirmOpen(true);
             }}
+            onPointerDown={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
           >
             <Trash2 size={12} />
           </button>

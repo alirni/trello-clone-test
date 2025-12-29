@@ -44,6 +44,7 @@ const EditableTitle: React.FC<EditableTitleProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    e.stopPropagation();
     if (e.key === 'Enter') {
       if (isTextarea && !e.shiftKey) {
         e.preventDefault();
@@ -66,6 +67,8 @@ const EditableTitle: React.FC<EditableTitleProps> = ({
         onChange={(e) => setValue(e.target.value)}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
+        onPointerDown={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
         className={editClassName}
         rows={3}
       />
@@ -76,13 +79,23 @@ const EditableTitle: React.FC<EditableTitleProps> = ({
         onChange={(e) => setValue(e.target.value)}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
+        onPointerDown={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
         className={editClassName}
       />
     );
   }
 
   return (
-    <div className={className} onClick={() => setIsEditing(true)}>
+    <div 
+      className={className} 
+      onClick={(e) => {
+        e.stopPropagation();
+        setIsEditing(true);
+      }}
+      onPointerDown={(e) => e.stopPropagation()}
+      onMouseDown={(e) => e.stopPropagation()}
+    >
       {title}
     </div>
   );
