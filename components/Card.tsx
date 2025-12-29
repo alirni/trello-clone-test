@@ -9,6 +9,7 @@ import { MessageSquare, Trash2 } from 'lucide-react';
 import CardDetails from './CardDetails';
 import Modal from './Modal';
 import ConfirmDialog from './ConfirmDialog';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import '../styles/components/card.scss';
 
 interface CardProps {
@@ -20,6 +21,7 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
   const { deleteCard } = useBoardStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const {
     attributes,
@@ -36,6 +38,7 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
       cardId: card.id,
       listId: listId,
     },
+    disabled: isMobile,
   });
 
   const isActuallyDragging = isDragging || (active?.id === card.id);
@@ -65,8 +68,8 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
         style={style}
         className="card-item"
         onClick={handleCardClick}
-        {...attributes}
-        {...listeners}
+        {...(!isMobile ? attributes : {})}
+        {...(!isMobile ? listeners : {})}
       >
         <div className="card-title">{card.title}</div>
         <div className="card-badges">

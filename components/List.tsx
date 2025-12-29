@@ -10,6 +10,7 @@ import CardComponent from './Card';
 import AddCard from './AddCard';
 import EditableTitle from './EditableTitle';
 import ConfirmDialog from './ConfirmDialog';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { Trash2 } from 'lucide-react';
 import '../styles/components/list.scss';
 
@@ -21,6 +22,7 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
   const { updateListTitle, deleteList, addCard } = useBoardStore();
   const { over, active } = useDndContext();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const isMobile = useIsMobile();
   
   const {
     attributes,
@@ -35,6 +37,7 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
       type: 'List',
       listId: list.id,
     },
+    disabled: isMobile,
   });
 
   const isCardOver = over && 
@@ -61,7 +64,11 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
       className="list-wrapper"
     >
       <div className={`list-content ${isCardOver ? 'is-card-over' : ''}`}>
-        <div className="list-header" {...attributes} {...listeners}>
+        <div 
+          className="list-header" 
+          {...(!isMobile ? attributes : {})} 
+          {...(!isMobile ? listeners : {})}
+        >
           <EditableTitle
             title={list.title}
             onSave={(newTitle) => updateListTitle(list.id, newTitle)}

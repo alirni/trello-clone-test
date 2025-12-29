@@ -11,6 +11,9 @@
     padding: 12px 16px;
     background-color: rgba(0, 0, 0, 0.2);
     display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
     .board-title {
       color: white;
       font-size: 18px;
@@ -49,6 +52,7 @@
       font-size: 14px;
       font-weight: 500;
       transition: background-color 0.2s;
+      min-width: max-content;
 
       &:hover {
         background-color: $danger-color;

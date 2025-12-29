@@ -80,14 +80,16 @@ const BoardComponent: React.FC = () => {
           onSave={updateBoardTitle}
           className="board-title"
         />
-        <button 
-          className="delete-all-btn"
-          onClick={() => setIsConfirmOpen(true)}
-          title="Delete all lists"
-        >
-          <Trash2 size={18} />
-          <span>Delete all lists</span>
-        </button>
+        <div>
+          <button 
+            className="delete-all-btn"
+            onClick={() => setIsConfirmOpen(true)}
+            title="Delete all lists"
+          >
+            <Trash2 size={18} />
+            <span>Delete all lists</span>
+          </button>
+        </div>
       </header>
 
       <div className="board-content">

@@ -31,10 +31,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: grab;
 
-      &:active {
-        cursor: grabbing;
+      @include desktop {
+        cursor: grab;
+
+        &:active {
+          cursor: grabbing;
+        }
       }
 
       .list-title {
