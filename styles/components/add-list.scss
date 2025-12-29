@@ -1,5 +1,6 @@
-@import '../abstracts/variables';
-@import '../abstracts/mixins';
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
 
 .add-list-btn {
   @include button-reset;
@@ -52,7 +53,7 @@
       font-size: 14px;
       
       &:hover {
-        background-color: darken($primary-color, 10%);
+        background-color: color.adjust($primary-color, $lightness: -10%);
       }
     }
     

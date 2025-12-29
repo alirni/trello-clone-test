@@ -1,13 +1,13 @@
-@import 'abstracts/variables';
-@import 'abstracts/mixins';
-@import 'base/reset';
+@use 'abstracts/variables';
+@use 'abstracts/mixins';
+@use 'base/reset';
 
-@import 'components/board';
-@import 'components/list';
-@import 'components/card';
-@import 'components/add-list';
-@import 'components/add-card';
-@import 'components/modal';
-@import 'components/card-details';
-@import 'components/confirm-dialog';
-@import 'components/list-actions';
+@use 'components/board';
+@use 'components/list';
+@use 'components/card';
+@use 'components/add-list';
+@use 'components/add-card';
+@use 'components/modal';
+@use 'components/card-details';
+@use 'components/confirm-dialog';
+@use 'components/list-actions';

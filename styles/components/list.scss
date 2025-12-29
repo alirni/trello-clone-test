@@ -1,5 +1,6 @@
-@import '../abstracts/variables';
-@import '../abstracts/mixins';
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
 
 .list-wrapper {
   width: 272px;
@@ -19,7 +20,7 @@
     transition: all 0.2s ease-in-out;
 
     &.is-card-over {
-      background-color: darken($list-bg, 2%);
+      background-color: color.adjust($list-bg, $lightness: -2%);
       .cards-container {
         min-height: 60px; 
         padding-bottom: 20px; 
