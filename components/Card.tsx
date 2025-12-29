@@ -92,7 +92,10 @@ const CardComponent: React.FC<CardProps> = ({ card, listId }) => {
       </div>
 
       {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
+        <Modal 
+          onClose={() => setIsModalOpen(false)}
+          className="card-details-modal"
+        >
           <CardDetails
             card={card}
             listId={listId}

@@ -37,6 +37,10 @@
       color: $text-light;
       opacity: 0;
       transition: opacity 0.2s;
+
+      @include mobile {
+        opacity: 1;
+      }
       
       &:hover {
         background-color: rgba(9, 30, 66, 0.08);

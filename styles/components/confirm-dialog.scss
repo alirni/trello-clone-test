@@ -59,5 +59,12 @@
   max-width: 400px;
   min-height: auto;
   align-self: center; // Center it vertically as well
+
+  @include mobile {
+    max-width: calc(100% - 32px);
+    height: auto;
+    margin: 0 16px;
+    border-radius: $border-radius-lg;
+  }
 }
 

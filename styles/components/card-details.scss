@@ -4,8 +4,13 @@
 .card-details {
   padding: 24px 16px 24px 56px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
   
   .details-header {
+    flex-shrink: 0;
     margin-bottom: 24px;
     
     .header-icon {
@@ -47,6 +52,15 @@
   .details-section {
     margin-bottom: 32px;
     position: relative;
+    flex-shrink: 0;
+
+    &.activity-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0;
+      min-height: 0;
+    }
     
     .section-header {
       display: flex;
@@ -157,6 +171,7 @@
   
   .add-comment {
     margin-bottom: 24px;
+    flex-shrink: 0;
     
     .comment-input-wrapper {
       background: white;
@@ -195,6 +210,21 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    overflow-y: auto;
+    flex: 1;
+
+    /* Custom scrollbar for comments */
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(9, 30, 66, 0.08);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(9, 30, 66, 0.14);
+      border-radius: 4px;
+    }
     
     .comment-item {
       .comment-header {
@@ -243,11 +273,11 @@
 }
 
 @include mobile {
-  .modal-overlay {
+  .modal-overlay:has(> .card-details-modal) {
     padding: 0;
   }
   
-  .modal-content {
+  .modal-content.card-details-modal {
     max-width: 100%;
     height: 100%;
     border-radius: 0;
@@ -255,6 +285,7 @@
   
   .card-details {
     padding-left: 48px;
+    height: 100%;
     
     .details-section .section-header svg {
       left: -32px;
