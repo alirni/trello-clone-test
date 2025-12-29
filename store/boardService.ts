@@ -25,6 +25,13 @@ export const boardService = {
     lists: board.lists.filter((list) => list.id !== listId),
   }),
 
+  deleteAllCardsInList: (board: Board, listId: string): Board => ({
+    ...board,
+    lists: board.lists.map((list) =>
+      list.id === listId ? { ...list, cards: [] } : list
+    ),
+  }),
+
   deleteAllLists: (board: Board): Board => ({
     ...board,
     lists: [],

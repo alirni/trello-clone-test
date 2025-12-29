@@ -10,8 +10,9 @@ import CardComponent from './Card';
 import AddCard from './AddCard';
 import EditableTitle from './EditableTitle';
 import ConfirmDialog from './ConfirmDialog';
+import ListActions from './ListActions';
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { Trash2 } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 import '../styles/components/list.scss';
 
 interface ListProps {
@@ -19,9 +20,11 @@ interface ListProps {
 }
 
 const ListComponent: React.FC<ListProps> = ({ list }) => {
-  const { updateListTitle, deleteList, addCard } = useBoardStore();
+  const { updateListTitle, deleteList, deleteAllCardsInList, addCard } = useBoardStore();
   const { over, active } = useDndContext();
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isConfirmListOpen, setIsConfirmListOpen] = useState(false);
+  const [isConfirmCardsOpen, setIsConfirmCardsOpen] = useState(false);
+  const [isActionsOpen, setIsActionsOpen] = useState(false);
   const isMobile = useIsMobile();
   
   const {
@@ -52,9 +55,14 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
     opacity: isActuallyDragging ? 0.5 : 1,
   };
 
-  const handleDelete = () => {
-    setIsConfirmOpen(false);
+  const handleDeleteList = () => {
+    setIsConfirmListOpen(false);
     deleteList(list.id);
+  };
+
+  const handleDeleteCards = () => {
+    setIsConfirmCardsOpen(false);
+    deleteAllCardsInList(list.id);
   };
 
   return (
@@ -75,16 +83,24 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
             className="list-title"
           />
           <button
-            className="delete-list-btn"
+            className="list-actions-btn"
             onClick={(e) => {
               e.stopPropagation();
-              setIsConfirmOpen(true);
+              setIsActionsOpen(!isActionsOpen);
             }}
             onPointerDown={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
           >
-            <Trash2 size={16} />
+            <MoreHorizontal size={16} />
           </button>
+
+          <ListActions
+            isOpen={isActionsOpen}
+            onClose={() => setIsActionsOpen(false)}
+            onDeleteList={() => setIsConfirmListOpen(true)}
+            onDeleteAllCards={() => setIsConfirmCardsOpen(true)}
+            hasCards={list.cards.length > 0}
+          />
         </div>
 
         <div className="cards-container">
@@ -104,12 +120,21 @@ const ListComponent: React.FC<ListProps> = ({ list }) => {
       </div>
 
       <ConfirmDialog
-        isOpen={isConfirmOpen}
+        isOpen={isConfirmListOpen}
         title="Delete List"
         message={`Are you sure you want to delete the list "${list.title}"? All cards in this list will be lost.`}
         confirmText="Delete"
-        onConfirm={handleDelete}
-        onCancel={() => setIsConfirmOpen(false)}
+        onConfirm={handleDeleteList}
+        onCancel={() => setIsConfirmListOpen(false)}
+      />
+
+      <ConfirmDialog
+        isOpen={isConfirmCardsOpen}
+        title="Delete All Cards"
+        message={`Are you sure you want to delete ALL cards in the list "${list.title}"? This action cannot be undone.`}
+        confirmText="Delete All"
+        onConfirm={handleDeleteCards}
+        onCancel={() => setIsConfirmCardsOpen(false)}
       />
     </div>
   );

@@ -51,6 +51,9 @@ export const useBoardStore = create<BoardState>()(
       deleteList: (listId) =>
         set((state) => ({ board: boardService.deleteList(state.board, listId) })),
 
+      deleteAllCardsInList: (listId) =>
+        set((state) => ({ board: boardService.deleteAllCardsInList(state.board, listId) })),
+
       deleteAllLists: () =>
         set((state) => ({ board: boardService.deleteAllLists(state.board) })),
 

@@ -31,6 +31,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
 
       @include desktop {
         cursor: grab;
@@ -57,15 +58,15 @@
         }
       }
 
-      .delete-list-btn {
+      .list-actions-btn {
         @include button-reset;
         padding: 6px;
         border-radius: $border-radius;
         color: $text-light;
-
+        
         &:hover {
           background-color: rgba(9, 30, 66, 0.08);
-          color: $danger-color;
+          color: $text-color;
         }
       }
     }
